@@ -6,11 +6,14 @@ from . import util
 
 def index(request):
     """
-    index view first looks if there is any search quries made by user,
-    if yes the function will return accordingly. On the otherhand if 
-    there is no search queries, the function will return index (Homepage) 
-    with all the entries listed.
+    If the user is searching for a page, then check if the page exists. If it does, then render the
+    page. If it doesn't, then render a list of pages that contain the search keyword. On the otherhand,
+    if the user is not searching for any page then it simply renders the index.html.
+    
+    :param request: The initial request sent from the client
+    :return: the rendered template of the entry page.
     """
+
     search_keyword = request.GET.get('q')
 
     if search_keyword:
@@ -38,9 +41,10 @@ def index(request):
 
 
 def entry_page_view(request, title):
-    """
-    this page renders the page given if the title matches else shows error
-    message to the
+    """ 
+    This is a function that is called when the user clicks on a entry listed on the index page. It checks if the
+    entry exists, and if it does, it renders the entry_page.html page with the title and body of the
+    entry 
     """
     body = util.get_entry(title)
 
@@ -51,6 +55,14 @@ def entry_page_view(request, title):
 
 
 def create_entry(request):
+    """
+    If the request method is POST, then get the title and body from the request, and if the title
+    already exists, then render the create_entry.html template with an error
+    message. Otherwise, save the entry and redirect to the newly created entry page.
+    
+    :param request: The current request object
+    :return: a render of the create_entry.html page.
+    """
     if request.method == "POST": 
         title = request.POST.get("title")
         body = request.POST.get("body")
@@ -74,6 +86,15 @@ def create_entry(request):
 
 
 def update_entry(request, title):
+    """
+    This function is called when the user clicks on the "Update Entry" link on the entry page. It checks if
+    the entry exists, and if it does, it renders the update_entry.html page with form fields prefield
+    with exisiting information".
+    
+    :param request: The current request object
+    :param title: The title of the page to be updated
+    :return: the rendered template.
+    """
 
     entry = util.get_entry(title)
     if entry is not None:
@@ -95,6 +116,12 @@ def update_entry(request, title):
 
 
 def random_page(request):
+    """
+    It redirects to a random page
+    
+    :param request: the HTTP request object
+    :return: A redirect to the entry_page_view function with the random_title as the argument.
+    """
     entries = util.list_entries()
     random_title = random.choice(entries)
     entry = util.get_entry(random_title)

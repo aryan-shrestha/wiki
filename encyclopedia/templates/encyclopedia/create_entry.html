@@ -27,6 +27,8 @@ Encyclopedia
 </form>
 {% endif %}
 
+<!-- this script prefills the textarea field when template is re rendered if any error occurs
+    this script is required because unlike input field textarea doesnot have value attribute -->
 <script>
     document.getElementById("body").value = "{{body}}";
 </script>
