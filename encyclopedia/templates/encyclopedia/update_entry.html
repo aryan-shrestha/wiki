@@ -1,0 +1,23 @@
+{% extends "encyclopedia/layout.html" %}
+{% load %}
+
+<!-- loading custom template tags -->
+{% load wiki_tags %}
+
+{% block body %}
+<h1>Update Page</h1>
+<form action="" method="POST">
+    {% csrf_token %}
+    <input type="text" name="title" id="title" value="{{title}}" style="margin-bottom: 15px; padding: 5px"><br>
+    <textarea name="body" id="body" data-markdown="{{body}}"></textarea> <br>
+    <input type="submit" value="Post">
+</form>
+
+<!-- as the textarea element doesnot have 'value' attribute 
+    the script below helps to pre fill the textarea with the 
+    already stored -->
+<script>
+    const md = document.getElementById("body").dataset.markdown;
+    document.getElementById("body").value = md;
+</script>
+{% endblock %}

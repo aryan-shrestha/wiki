@@ -1,0 +1,11 @@
+{% extends "encyclopedia/layout.html" %}
+
+<!-- loading custom template tags -->
+{% load wiki_tags %}
+
+{% block body %}
+<a href="/update/{{title}}">Update Entry</a>
+{{body|convert_markdown|safe }}
+
+
+{% endblock %}
